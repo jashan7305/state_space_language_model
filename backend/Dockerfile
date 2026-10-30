@@ -22,9 +22,7 @@ WORKDIR /app/backend
 RUN uv sync --frozen --no-dev --no-install-project
 
 # Copy backend application
-COPY backend/main.py /app/backend/main.py
-COPY backend/chat.py /app/backend/chat.py
-COPY backend/sslm /app/backend/sslm
+COPY backend /app/backend
 
 # Copy static frontend
 COPY frontend /app/frontend
