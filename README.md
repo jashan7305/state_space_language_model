@@ -220,3 +220,4 @@ The `/prompt` request accepts:
 - The notebook is designed for Kaggle GPU sessions. Checkpoints and datasets
   under `/kaggle/working` must be saved or published explicitly before a
   session ends.
+  
