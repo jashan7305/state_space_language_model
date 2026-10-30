@@ -2,3 +2,4 @@
 .env
 .git
 __pycache__
+.cache
