@@ -6,9 +6,12 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.162.0",
+    "huggingface-hub>=2.4.0",
     "numpy>=2.4.6",
+    "safetensors>=0.8.0",
     "tokenizers>=0.23.3",
     "torch>=2.15.0",
+    "transformers>=5.22.1",
     "uvicorn>=0.54.0",
 ]
 

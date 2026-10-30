@@ -300,3 +300,57 @@ body {
         font-size: 8px;
     }
 }
+
+
+/* Model selector */
+
+.model-label {
+    color: var(--green-muted);
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+#model-select {
+    appearance: none;
+    background: #080d08;
+    border: 1px solid var(--border);
+    border-radius: 0;
+
+    color: var(--green);
+    font-family: inherit;
+    font-size: 11px;
+
+    padding: 5px 24px 5px 8px;
+    cursor: pointer;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--green) 50%),
+        linear-gradient(135deg, var(--green) 50%, transparent 50%);
+
+    background-position:
+        calc(100% - 12px) 10px,
+        calc(100% - 8px) 10px;
+
+    background-size: 4px 4px;
+    background-repeat: no-repeat;
+}
+
+#model-select:hover {
+    border-color: var(--green);
+}
+
+#model-select:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(51, 255, 102, 0.2);
+}
+
+#model-select option {
+    background: #080d08;
+    color: var(--green);
+}
+
+#model-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+

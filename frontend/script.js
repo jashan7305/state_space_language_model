@@ -3,6 +3,7 @@ const input = document.getElementById("prompt-input");
 const output = document.getElementById("terminal-output");
 const status = document.getElementById("status");
 const clock = document.getElementById("clock");
+const modelSelect = document.getElementById("model-select");
 
 let isProcessing = false;
 
@@ -20,7 +21,7 @@ updateClock();
 
 
 // --------------------------------------------------
-// Terminal output helpers
+// Helpers
 // --------------------------------------------------
 
 function scrollToBottom() {
@@ -51,6 +52,16 @@ function setStatus(message) {
     status.textContent = message;
 }
 
+function getSelectedModel() {
+    return modelSelect.value;
+}
+
+function getModelName(model) {
+    return model === "sslm"
+        ? "SSLM-100M"
+        : "DumbassLM-135M";
+}
+
 
 // --------------------------------------------------
 // Terminal commands
@@ -68,9 +79,10 @@ function executeCommand(command) {
 help       Display available commands
 clear      Clear terminal screen
 about      Model information
+models     Display available models
 exit       Clear current input
 
-Any other input will be sent to SSLM.`,
+Any other input will be sent to the selected model.`,
                 "message-system"
             );
             return true;
@@ -81,21 +93,39 @@ Any other input will be sent to SSLM.`,
 
         case "about":
             appendMessage(
-                `SSLM :: STATE SPACE LANGUAGE MODEL
+                `SSLM TERMINAL
 
+SSLM-100M
 Architecture : Diagonal LTI State Space Model
-Parameters   : Approximately 100M class
-Inference    : CPU
-Backend      : FastAPI
-Interface    : Terminal
+Parameters  : Approximately 100M
+Inference   : CPU
 
-A custom language model trained from scratch.`,
+DumbassLM-135M
+Architecture : Transformer (Llama-style)
+Parameters  : 135M
+Inference   : CPU
+
+Backend : FastAPI`,
+                "message-system"
+            );
+            return true;
+
+        case "models":
+            appendMessage(
+                `AVAILABLE MODELS
+
+[1] SSLM-100M
+    Custom State Space Language Model
+
+[2] DumbassLM-135M
+    SmolLM2-135M-Instruct
+
+Use the MODEL selector in the header to switch.`,
                 "message-system"
             );
             return true;
 
         case "exit":
-            input.value = "";
             appendMessage("Session remains active.", "message-system");
             return true;
 
@@ -114,19 +144,28 @@ async function sendPrompt(prompt) {
     if (isProcessing || !prompt.trim()) return;
 
     isProcessing = true;
+
     input.disabled = true;
+    modelSelect.disabled = true;
+
+    const selectedModel = getSelectedModel();
+    const modelName = getModelName(selectedModel);
 
     appendMessage(prompt, "message-prompt");
 
-    const label = appendLabel("SSLM :: GENERATING RESPONSE...");
-    const responseElement = document.createElement("div");
+    const label = appendLabel(
+        `${modelName} :: GENERATING RESPONSE...`
+    );
 
+    const responseElement = document.createElement("div");
     responseElement.className = "message message-answer";
+
     responseElement.textContent = "";
 
     output.appendChild(responseElement);
 
-    setStatus("PROCESSING REQUEST...");
+    setStatus(`${modelName} PROCESSING...`);
+    scrollToBottom();
 
     try {
 
@@ -139,6 +178,7 @@ async function sendPrompt(prompt) {
 
             body: JSON.stringify({
                 prompt: prompt,
+                model: selectedModel,
                 max_new_tokens: 150,
                 temperature: 0.8,
                 top_k: 40
@@ -152,7 +192,8 @@ async function sendPrompt(prompt) {
         }
 
         responseElement.textContent = data.answer;
-        label.textContent = "SSLM :: RESPONSE";
+
+        label.textContent = `${data.model_name} :: RESPONSE`;
 
         setStatus("SYSTEM READY");
 
@@ -161,16 +202,18 @@ async function sendPrompt(prompt) {
         responseElement.className = "message message-error";
         responseElement.textContent = `[ ERROR ] ${error.message}`;
 
-        label.textContent = "SSLM :: ERROR";
+        label.textContent = `${modelName} :: ERROR`;
 
         setStatus("REQUEST FAILED");
 
     } finally {
 
         isProcessing = false;
-        input.disabled = false;
-        input.focus();
 
+        input.disabled = false;
+        modelSelect.disabled = false;
+
+        input.focus();
         scrollToBottom();
     }
 }
@@ -193,6 +236,7 @@ input.addEventListener("keydown", async (event) => {
         if (!prompt) return;
 
         input.value = "";
+        input.style.height = "auto";
 
         if (executeCommand(prompt)) {
             setStatus("SYSTEM READY");
@@ -216,7 +260,24 @@ input.addEventListener("input", () => {
 
 
 // --------------------------------------------------
-// Initial focus
+// Model selection
+// --------------------------------------------------
+
+modelSelect.addEventListener("change", () => {
+    const modelName = getModelName(getSelectedModel());
+
+    appendMessage(
+        `[ SYSTEM ] Active model switched to ${modelName}.`,
+        "message-system"
+    );
+
+    setStatus(`${modelName} SELECTED`);
+    input.focus();
+});
+
+
+// --------------------------------------------------
+// Initial state
 // --------------------------------------------------
 
 input.focus();
