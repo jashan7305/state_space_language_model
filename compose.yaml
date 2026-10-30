@@ -1,0 +1,21 @@
+
+services:
+  sslm:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+
+    container_name: sslm
+
+    ports:
+      - "127.0.0.1:8007:8000"
+
+    restart: unless-stopped
+
+    init: true
+
+    environment:
+      OMP_NUM_THREADS: 4
+      MKL_NUM_THREADS: 4
+
+    stop_grace_period: 30s

@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SSLM :: Terminal</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="crt-overlay"></div>
+
+    <main class="terminal">
+
+        <!-- Header -->
+        <header class="terminal-header">
+            <div class="header-left">
+                <span class="status-indicator"></span>
+                <span>SSLM TERMINAL</span>
+            </div>
+
+            <div class="header-right">
+                <span id="clock">00:00:00</span>
+                <span class="separator">|</span>
+                <span>CPU MODE</span>
+            </div>
+        </header>
+
+        <!-- Terminal output -->
+        <section class="terminal-body" id="terminal-output">
+
+            <div class="boot-screen">
+                <pre class="ascii-logo">
+   _____ _____ _     __  __
+  / ____/ ____| |   |  \/  |
+ | (___| (___ | |   | \  / |
+  \___ \\___ \| |   | |\/| |
+  ____) |___) | |___| |  | |
+ |_____/_____/|_____|_|  |_|
+                </pre>
+
+                <p class="boot-line">STATE SPACE LANGUAGE MODEL</p>
+                <p class="boot-line">CUSTOM LANGUAGE MODEL :: 100M PARAMETER CLASS</p>
+                <p class="boot-line">INITIALIZING INFERENCE ENGINE...</p>
+                <p class="boot-line success">[ OK ] MODEL LOADED</p>
+                <p class="boot-line success">[ OK ] TOKENIZER READY</p>
+                <p class="boot-line success">[ OK ] CPU BACKEND ONLINE</p>
+
+                <br>
+
+                <p>Welcome to SSLM Terminal.</p>
+                <p>Type <span class="highlight">help</span> for available commands.</p>
+                <p>------------------------------------------------------------</p>
+            </div>
+
+        </section>
+
+        <!-- Input -->
+        <footer class="terminal-input-area">
+
+            <div class="input-line">
+                <span class="prompt-label">guest@sslm:~$</span>
+
+                <textarea
+                    id="prompt-input"
+                    placeholder="Enter your prompt..."
+                    rows="1"
+                    autofocus
+                    spellcheck="false"
+                ></textarea>
+
+                <span class="cursor"></span>
+            </div>
+
+            <div class="input-footer">
+                <span id="status">SYSTEM READY</span>
+                <span>ENTER TO EXECUTE · SHIFT+ENTER FOR NEW LINE</span>
+            </div>
+
+        </footer>
+
+    </main>
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>

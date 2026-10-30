@@ -1,0 +1,18 @@
+{
+  "model_type": "diagonal_lti_ssm",
+  "vocab_size": 32000,
+  "d_model": 768,
+  "n_layers": 14,
+  "d_state": 16,
+  "expansion": 3,
+  "max_seq_len": 512,
+  "parameter_count": 100485888,
+  "special_tokens": [
+    "<|pad|>",
+    "<|unk|>",
+    "<|endoftext|>",
+    "<|user|>",
+    "<|assistant|>",
+    "<|system|>"
+  ]
+}
