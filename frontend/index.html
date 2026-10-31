@@ -1,99 +1,118 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SSLM :: Terminal</title>
+<title>SSLM :: Terminal</title>
 
-    <link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-    <div class="crt-overlay"></div>
+<div class="crt-overlay"></div>
 
-    <main class="terminal">
+<main class="terminal">
 
-        <!-- Header -->
-        <header class="terminal-header">
-            <div class="header-left">
-                <span class="status-indicator"></span>
-                <span>SSLM TERMINAL</span>
-            </div>
+<!-- Header (waybar) -->
+<header class="terminal-header">
+<div class="header-left">
+<span class="status-indicator"></span>
+<span>SSLM TERMINAL</span>
+</div>
 
-            <div class="header-right">
+<div class="header-right">
 
-                <label for="model-select" class="model-label">MODEL:</label>
+<label for="model-select" class="model-label">MODEL:</label>
 
-                <select id="model-select">
-                    <option value="sslm">SSLM-100M</option>
-                    <option value="dumbasslm">DumbassLM-135M</option>
-                </select>
+<select id="model-select">
+<option value="sslm">SSLM-100M</option>
+<option value="dumbasslm">DumbassLM-135M</option>
+</select>
 
-                <span class="separator">|</span>
-                <span id="clock">00:00:00</span>
-                
-            </div>
-        </header>
+<span class="separator">|</span>
+<span id="clock">00:00:00</span>
+</div>
+</header>
 
-        <!-- Terminal output -->
-        <section class="terminal-body" id="terminal-output">
+<!-- Terminal output -->
+<section class="terminal-body" id="terminal-output">
 
-            <div class="boot-screen">
-                <pre class="ascii-logo">
-   _____ _____ _     __  __
-  / ____/ ____| |   |  \/  |
- | (___| (___ | |   | \  / |
-  \___ \\___ \| |   | |\/| |
-  ____) |___) | |___| |  | |
- |_____/_____/|_____|_|  |_|
-                </pre>
+<div class="boot-screen">
+<p class="boot-line success">[ OK ] MODEL LOADED</p>
+<p class="boot-line success">[ OK ] TOKENIZER READY</p>
+<p class="boot-line success">[ OK ] CPU BACKEND ONLINE</p>
 
-                <p class="boot-line">STATE SPACE LANGUAGE MODEL</p>
-                <p class="boot-line">CUSTOM LANGUAGE MODEL :: 100M PARAMETER CLASS</p>
-                <p class="boot-line">INITIALIZING INFERENCE ENGINE...</p>
-                <p class="boot-line success">[ OK ] MODEL LOADED</p>
-                <p class="boot-line success">[ OK ] TOKENIZER READY</p>
-                <p class="boot-line success">[ OK ] CPU BACKEND ONLINE</p>
+<br>
 
-                <br>
+<p class="prompt-line"><span class="prompt-user">guest@sslm</span><span class="prompt-symbol">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$ fastfetch</span></p>
 
-                <p>Welcome to SSLM Terminal.</p>
-                <p>Type <span class="highlight">help</span> for available commands.</p>
-                <p>------------------------------------------------------------</p>
-            </div>
+<div class="fetch">
+<pre class="ascii-logo"> ____  ____  _     __  __
+/ ___|/ ___|| |   |  \/  |
+\___ \\___ \| |   | |\/| |
+ ___) |___) | |___| |  | |
+|____/|____/|_____|_|  |_|</pre>
 
-        </section>
+<div class="fetch-info"><span class="fetch-title">guest<span class="at">@</span>sslm</span>
+<span class="fetch-rule">-----------</span>
+<span class="fetch-key">Model</span>: <span id="fetch-model">SSLM-100M</span>
+<span class="fetch-key">Parameters</span>: <span id="fetch-params">100M</span>
+<span class="fetch-key">Architecture</span>: State Space
+<span class="fetch-key">Device</span>: CPU
+<span class="fetch-key">Backend</span>: Inference Engine
+<span class="fetch-key">Tokenizer</span>: Ready
+<div class="fetch-colors"><i style="background:#2e3436"></i><i style="background:#cc0000"></i><i style="background:#4e9a06"></i><i style="background:#c4a000"></i><i style="background:#3465a4"></i><i style="background:#75507b"></i><i style="background:#06989a"></i><i style="background:#d3d7cf"></i></div></div>
+</div>
 
-        <!-- Input -->
-        <footer class="terminal-input-area">
+<p>Type <span class="highlight">help</span> for available commands.</p>
+</div>
 
-            <div class="input-line">
-                <span class="prompt-label">guest@sslm:~$</span>
+</section>
 
-                <textarea
-                    id="prompt-input"
-                    placeholder="Enter your prompt..."
-                    rows="1"
-                    autofocus
-                    spellcheck="false"
-                ></textarea>
+<!-- Input -->
+<footer class="terminal-input-area">
 
-                <span class="cursor"></span>
-            </div>
+<div class="input-line">
+<span class="prompt-label">guest@sslm:~$</span>
 
-            <div class="input-footer">
-                <span id="status">SYSTEM READY</span>
-                <span>ENTER TO EXECUTE · SHIFT+ENTER FOR NEW LINE</span>
-            </div>
+<textarea
+id="prompt-input"
+placeholder="Enter your prompt..."
+rows="1"
+autofocus
+spellcheck="false"
+></textarea>
 
-        </footer>
+<span class="cursor"></span>
+</div>
 
-    </main>
+<div class="input-footer">
+<span id="status">SYSTEM READY</span>
+<span>ENTER TO EXECUTE · SHIFT+ENTER FOR NEW LINE</span>
+</div>
 
-    <script src="/static/script.js"></script>
+</footer>
+
+</main>
+
+<script src="/static/script.js"></script>
+
+<!-- Keeps the fastfetch block in sync with the model selector (does not touch script.js) -->
+<script>
+(function () {
+  var select = document.getElementById("model-select");
+  var model = document.getElementById("fetch-model");
+  var params = document.getElementById("fetch-params");
+  var sizes = { sslm: "100M", dumbasslm: "135M" };
+  if (!select || !model || !params) return;
+  select.addEventListener("change", function () {
+    model.textContent = select.options[select.selectedIndex].text;
+    params.textContent = sizes[select.value] || "?";
+  });
+})();
+</script>
 
 </body>
 </html>
